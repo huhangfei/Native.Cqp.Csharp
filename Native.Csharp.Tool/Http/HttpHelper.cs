@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Net.Cache;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -194,7 +195,10 @@ namespace Native.Csharp.Tool.Http
 				httpWebRequest.Method = "POST";
 				httpWebRequest.Timeout = timeout;
 				httpWebRequest.Accept = accept;
-				if (cookies != null)
+                //httpWebRequest.KeepAlive = true;
+                //httpWebRequest.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);
+
+                if (cookies != null)
 				{
 					httpWebRequest.CookieContainer = new CookieContainer();
 					httpWebRequest.CookieContainer.Add(cookies);
@@ -229,7 +233,7 @@ namespace Native.Csharp.Tool.Http
 				result = GetResponseString(webResponse, encoding);
 				return result;
 			}
-			catch
+			catch(Exception ex)
 			{
 				return result;
 			}

@@ -15,6 +15,9 @@ namespace Native.Csharp.App.Config
         /// 命令前缀
         /// </summary>
         public string cmdPrefix { get; set; }
+
+        public string xuanShangDiZhi { get; set; }
+
     }
     
 }

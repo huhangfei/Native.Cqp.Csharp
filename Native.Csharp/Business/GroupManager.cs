@@ -74,10 +74,27 @@ namespace Native.Csharp.Business
         {
             e.Handled = false;
         }
-
+        /// <summary>
+		/// Type=2 群消息<para/>
+		/// 当在派生类中重写时, 处理收到的群消息
+		/// </summary>
+		/// <param name="sender">事件的触发对象</param>
+		/// <param name="e">事件的附加参数</param>
         public void ReceiveGroupMessage(object sender, GroupMessageEventArgs e)
         {
             e.Handled = false;
+            var config = _config.Get();
+            if (config == null || config.groupIds.Count(n => n == e.FromGroup) <= 0)
+                return;
+            if (string.IsNullOrEmpty(e.Msg) || e.Msg.IndexOf(config.cmdPrefix) < 0)
+                return;
+            if (e.Msg.Substring(0, config.cmdPrefix.Length).ToLower() != config.cmdPrefix.ToLower())
+                return;
+
+
+
+
+
         }
 
         public void ReceiveGroupPrivateMessage(object sender, PrivateMessageEventArgs e)
