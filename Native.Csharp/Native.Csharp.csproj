@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Native.Csharp</RootNamespace>
-    <AssemblyName>com.yingyingying.groupmanager</AssemblyName>
+    <AssemblyName>com.yingyingying.xuanshang</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -61,16 +61,10 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="RazorEngine, Version=3.10.0.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
-      <HintPath>..\packages\RazorEngine.3.10.0\lib\net40\RazorEngine.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
-    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -93,7 +87,7 @@
   <ItemGroup>
     <Compile Include="App\Common.cs" />
     <Compile Include="Business\ConfigImpl.cs" />
-    <Compile Include="Business\Config\GroupManagerConfig.cs" />
+    <Compile Include="Business\Config\SysConfig.cs" />
     <Compile Include="App\Core\LibExport.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -125,7 +119,6 @@
     <Compile Include="Business\GroupManager.cs" />
     <Compile Include="Business\IConfig.cs" />
     <Compile Include="Business\IGroupManager.cs" />
-    <Compile Include="Business\Model\CurrentSystemVariable.cs" />
     <Compile Include="Business\UI\Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,12 +129,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="com.yingyingying.groupmanager.json">
+    <None Include="com.yingyingying.xuanshang.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="FodyWeavers.xml" />
     <None Include="packages.config" />
-    <None Include="Business\yingyingyinggroupmanager.json" />
+    <None Include="Business\config.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Native.Csharp.Sdk\Native.Csharp.Sdk.csproj">
@@ -162,7 +155,9 @@
       <LastGenOutput>LibExport.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Business\Model\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ImportGroup Label=".NET DllExport" />
   <ImportGroup Label=".NET DllExport" />

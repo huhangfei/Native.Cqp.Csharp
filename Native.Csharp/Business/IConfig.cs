@@ -5,8 +5,7 @@ namespace Native.Csharp.Business
 {
     public interface IConfig
     {
+        SysConfig Get();
         void Refresh();
-        List<GroupManagerConfig> GetAll();
-        GroupManagerConfig Get(long groupId);
     }
 }

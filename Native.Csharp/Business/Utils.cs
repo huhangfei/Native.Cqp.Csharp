@@ -1,6 +1,4 @@
 ﻿using Newtonsoft.Json;
-using RazorEngine;
-using RazorEngine.Templating;
 using System;
 using System.Security.Cryptography;
 
@@ -8,12 +6,6 @@ namespace Native.Csharp.Business
 {
     public class Utils
     {
-        public static string MessageParse(string template,object data)
-        {
-            
-            var result =Engine.Razor.RunCompile(template, MD5Encrypt(JsonConvert.SerializeObject(data)), null, data);
-            return result;
-        }
         /// <summary>
         /// 32位MD5加密
         /// </summary>

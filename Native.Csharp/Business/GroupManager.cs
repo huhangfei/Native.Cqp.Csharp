@@ -2,7 +2,6 @@
 using Native.Csharp.App.Config;
 using Native.Csharp.App.Interface;
 using Native.Csharp.App.Model;
-using Native.Csharp.Business.Model;
 using Native.Csharp.Sdk.Cqp.Api;
 using Native.Csharp.Sdk.Cqp.Enum;
 using Native.Csharp.Sdk.Cqp.Model;
@@ -29,15 +28,6 @@ namespace Native.Csharp.Business
         public void ReceiveGroupAddApply(object sender, GroupAddRequestEventArgs e)
         {
             e.Handled = false;
-            //申请入群的验证配置
-            var config= _config.Get(e.FromGroup);
-            if (config == null)
-                return;
-            //自动同意
-            if (config.addGroupValidation.type == AddGroupValidationType.autoAgree)
-            {
-                Common.CqApi.SetGroupAddRequest(e.Tag, Sdk.Cqp.Enum.RequestType.GroupAdd, ResponseType.PASS, e.AppendMsg);
-            }
         }
 
         public void ReceiveGroupAddInvitee(object sender, GroupAddRequestEventArgs e)
@@ -73,28 +63,6 @@ namespace Native.Csharp.Business
         public void ReceiveGroupMemberJoin(object sender, GroupMemberAlterEventArgs e)
         {
             e.Handled = false;
-            //申请入群的验证配置
-            var config = _config.Get(e.FromGroup);
-            if (config == null)
-                return;
-            GroupPlacard groupPlacard = config.groupPlacard;
-            if (!string.IsNullOrEmpty(groupPlacard.addGroup))
-            {
-                CurrentSystemVariable currentSystemVariable = new CurrentSystemVariable();
-
-                currentSystemVariable.BeingOperateQQ = e.BeingOperateQQ;
-
-                currentSystemVariable.AtCodeDic.Add(e.BeingOperateQQ, Common.CqApi.CqCode_At(e.BeingOperateQQ));
-
-                QQ qqInfo = new QQ();
-                Common.CqApi.GetQQInfo(e.BeingOperateQQ,out qqInfo);
-
-                currentSystemVariable.BeingOperateQQInfo = qqInfo;
-
-
-                Common.CqApi.SendGroupMessage(e.FromGroup, Utils.MessageParse(groupPlacard.addGroup, currentSystemVariable));
-            }
-
         }
 
         public void ReceiveGroupMemberLeave(object sender, GroupMemberAlterEventArgs e)

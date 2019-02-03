@@ -7,49 +7,30 @@ using Newtonsoft.Json;
 
 namespace Native.Csharp.Business
 {
-    public class ConfigImpl: IConfig
+    public class ConfigImpl : IConfig
     {
-        private List<GroupManagerConfig> managerConfigs;
+        private SysConfig sysConfig;
 
 
-        public GroupManagerConfig Get(long groupId)
+        public SysConfig Get()
         {
-
-            List<GroupManagerConfig> managerConfigs = GetAll();
-            if (managerConfigs == null)
-                return null;
-
-            var sp = managerConfigs.Where(n => n.activate && n.scope == GroupManagerConfigScope.specific && n.groupIds.Count(m => m == groupId) > 0).FirstOrDefault();
-            if (sp != null)
-                return sp;
-
-            return managerConfigs.Where(n => n.activate && n.scope== GroupManagerConfigScope.all).FirstOrDefault(); ;
+            return sysConfig;
         }
-
-        public List<GroupManagerConfig> GetAll()
-        {
-            if (managerConfigs == null)
-            {
-                managerConfigs = GetAllFromFile();
-            }
-            return managerConfigs;
-        }
-
         public void Refresh()
         {
-            managerConfigs = GetAllFromFile();
+            sysConfig = GetAllFromFile();
         }
 
-        private List<GroupManagerConfig> GetAllFromFile()
+        private SysConfig GetAllFromFile()
         {
-            string fileName = "yingyingyinggroupmanager.json";
+            string fileName = "config.json";
             string path = Common.CqApi.GetAppDirectory()+ fileName;
 
             if (File.Exists(path))
             {
                 string json= File.ReadAllText(path);
-                List<GroupManagerConfig> managerConfigs = JsonConvert.DeserializeObject<List<GroupManagerConfig>>(json);
-                return managerConfigs;
+                SysConfig config = JsonConvert.DeserializeObject<SysConfig>(json);
+                return config;
             }
             return null;
         }
