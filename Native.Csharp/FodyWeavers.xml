@@ -1,4 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Weavers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
-	<Costura />
+	<!--<Costura IncludeAssemblies="CommonServiceLocator|Costura|Native.Csharp.Sdk|Navite.Csharp.Tool|Newtonsoft.Json|System.Web.Razor|Unity.Abstractions|Unity.Container|Unity.Interception|Unity.ServiceLocation" 
+            Unmanaged32Assemblies="RazorEngine" 
+            Unmanaged64Assemblies="RazorEngine"
+            PreloadOrder="RazorEngine"/>-->
+	<Costura/>
 </Weavers>

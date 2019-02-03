@@ -33,7 +33,9 @@ namespace Native.Csharp.App.Core
 		[DllExport (ExportName = "_eventOpenConsole", CallingConvention = CallingConvention.StdCall)]
 		private static int EventOpenConsole ()
 		{
-			UserOpenConsole (null, new EventArgs ());
+            //UserOpenConsole (null, new EventArgs ());
+            UI.Main main = new UI.Main();
+            main.Show();
 			return 0;
 		}
 		#endregion

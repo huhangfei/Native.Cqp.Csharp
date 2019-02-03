@@ -8,6 +8,7 @@ using Native.Csharp.App.Core;
 using Native.Csharp.App.Interface;
 using Native.Csharp.App.Model;
 using Native.Csharp.Sdk.Cqp.Api;
+using Native.Csharp.Business;
 
 namespace Native.Csharp.App.Event
 {
@@ -30,16 +31,22 @@ namespace Native.Csharp.App.Event
 			container.RegisterType<IEvent_FriendMessage, Event_FriendMessage> ();
 
 			// 注册 IEvent_GroupMessage 类, 继承于 Event_GroupMessage
-			container.RegisterType<IEvent_GroupMessage, Event_GroupMessage> ();
-
-			// 注册 IEvent_OtherMessage 类, 继承于 Event_OtherMessage
-			container.RegisterType<IEvent_OtherMessage, Event_OtherMessage> ();
+			//container.RegisterType<IEvent_GroupMessage, Event_GroupMessage> ();
+            container.RegisterType<IEvent_GroupMessage, GroupManager>();
+            // 注册 IEvent_OtherMessage 类, 继承于 Event_OtherMessage
+            container.RegisterType<IEvent_OtherMessage, Event_OtherMessage> ();
 			#endregion
 
 			// 当需要新注册回调类型时
 			// 在此写上需要注册的回调类型, 以 <接口, 实现类> 的方式进行注册
 			container.RegisterType<IEvent_UserExpand, Event_UserExpand> ();
-		}
+
+            //群管理实现
+            container.RegisterType<IGroupManager, GroupManager>();
+            container.RegisterType<IConfig, ConfigImpl>();
+
+
+        }
 
 		/// <summary>
 		/// 回调分发
