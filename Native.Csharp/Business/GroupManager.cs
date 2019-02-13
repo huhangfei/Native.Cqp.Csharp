@@ -14,10 +14,12 @@ namespace Native.Csharp.Business
 {
     public class GroupManager : IGroupManager
     {
+        IXuanShang _xuanShang;
         IConfig _config;
-        public GroupManager(IConfig config)
+        public GroupManager(IConfig config, IXuanShang xuanShang)
         {
             _config = config;
+            _xuanShang = xuanShang;
         }
         /// <summary>
 		/// Type=302 群事件 - 群请求 - 申请入群<para/>
@@ -90,11 +92,17 @@ namespace Native.Csharp.Business
                 return;
             if (e.Msg.Substring(0, config.cmdPrefix.Length).ToLower() != config.cmdPrefix.ToLower())
                 return;
-
-
-
-
-
+            string msg = string.Empty;
+            try
+            {
+                msg=_xuanShang.Get(e.Msg.Replace(config.cmdPrefix, ""));
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message;
+            }
+            Common.CqApi.SendGroupMessage(e.FromGroup, Common.CqApi.CqCode_At(e.FromQQ)+"\r\n"+ msg);
+            e.Handled = true;
         }
 
         public void ReceiveGroupPrivateMessage(object sender, PrivateMessageEventArgs e)

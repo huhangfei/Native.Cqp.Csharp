@@ -16,7 +16,7 @@ namespace Test
                 xuanShangDiZhi= "http://cc.koncoo.com/yys/default.aspx"
             });
 
-
+            Console.WriteLine(result);
             Assert.IsNotNull(result);
 
         }

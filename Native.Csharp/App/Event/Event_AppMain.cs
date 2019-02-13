@@ -41,9 +41,10 @@ namespace Native.Csharp.App.Event
 			// 在此写上需要注册的回调类型, 以 <接口, 实现类> 的方式进行注册
 			container.RegisterType<IEvent_UserExpand, Event_UserExpand> ();
 
-            //群管理实现
+            //实现
             container.RegisterType<IGroupManager, GroupManager>();
             container.RegisterType<IConfig, ConfigImpl>();
+            container.RegisterType<IXuanShang, XuanShangImpl>();
 
 
         }

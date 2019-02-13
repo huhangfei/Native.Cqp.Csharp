@@ -14,6 +14,9 @@ namespace Native.Csharp.Business
 
         public SysConfig Get()
         {
+            if(sysConfig!=null)
+                return sysConfig;
+            Refresh();
             return sysConfig;
         }
         public void Refresh()

@@ -1,9 +1,7 @@
 ﻿using HtmlAgilityPack;
 using Native.Csharp.App.Config;
 using Native.Csharp.Tool.Http;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Web;
 
@@ -33,15 +31,35 @@ namespace Native.Csharp.Business
             pars.Add("__EVENTVALIDATION", HttpUtility.UrlEncode(__EVENTVALIDATION));
             pars.Add("__EVENTTARGET", "lnkSearch");
             string html = HttpHelper.Post(config.xuanShangDiZhi, pars);
-            var web2 = new HtmlWeb();
-            var doc2=web2.Load(html);
+            HtmlDocument doc2 = new HtmlDocument();
+            doc2.LoadHtml(html);
             var dataDiv = doc2.DocumentNode.SelectSingleNode("//div[@id='divData']");
-            var tbody=dataDiv.SelectSingleNode("//tbody");
-            var trs = tbody.SelectNodes("//tr");
+            
+            StringBuilder sb = new StringBuilder();
+            var thead = dataDiv.SelectSingleNode(".//thead");
+            var ths = thead.SelectNodes(".//th");
+            foreach (var th in ths)
+            {
+                string text = th.InnerText.Replace("\r\n", "").Replace(" ", "");
+                sb.Append(text);
+                if(!string.IsNullOrEmpty(text))
+                    sb.Append(" ");
+            }
+            sb.Append("\r\n");
 
-
-
-            throw new NotImplementedException();
+            var tbody = dataDiv.SelectSingleNode(".//tbody");
+            var trs = tbody.SelectNodes(".//tr");
+            foreach (var tr in trs)
+            {
+                var tds = tr.SelectNodes(".//td");
+                foreach (var td in tds)
+                {
+                    sb.Append(td.InnerText.Replace("\r\n", "").Replace(" ", ""));
+                    sb.Append(" ");
+                }
+                sb.Append("\r\n");
+            }
+            return sb.ToString();
         }
     }
 }
