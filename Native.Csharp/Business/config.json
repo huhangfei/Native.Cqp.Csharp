@@ -3,5 +3,10 @@
   "groupIds": [
     852797927
   ],
-  "xuanShangDiZhi": "http://cc.koncoo.com/yys/default.aspx"
+  "xuanShangDiZhi": "http://cc.koncoo.com/yys/default.aspx",
+  "jingCaiLastMinute": 15,
+  "jingCaiKaiShiShiJian": "2019-03-06 12:00:00",
+  "jingCaiJieShuShiJian": "2019-03-10 23:59:00",
+  "jingCaiChaXunDiZhi": "https://www.lufernew.com/api/guess/checkExistRecord.do",
+  "jingCaiCmdPrefix": "#jc"
 }

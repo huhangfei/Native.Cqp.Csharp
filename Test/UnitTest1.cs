@@ -1,6 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Native.Csharp.Business;
+using Native.Csharp.Business.Model;
+using Native.Csharp.Tool.Http;
+using Newtonsoft.Json;
 
 namespace Test
 {
@@ -19,6 +22,15 @@ namespace Test
             Console.WriteLine(result);
             Assert.IsNotNull(result);
 
+        }
+        [TestMethod]
+        public void TestMethod2()
+        {
+            string json = HttpHelper.Get("https://www.lufernew.com/api/guess/checkExistRecord.do");
+
+            JingCaiWinRateInfo info = JsonConvert.DeserializeObject<JingCaiWinRateInfo>(json);
+
+            Assert.IsNotNull(info);
         }
     }
 }

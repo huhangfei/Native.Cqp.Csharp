@@ -3,20 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Native.Csharp.App.Interface;
+using Native.Csharp.Business;
 using Native.Csharp.Sdk.Cqp.Api;
 
 namespace Native.Csharp.App.Event
 {
 	public class Event_AppStatus : IEvent_AppStatus
 	{
-		#region --公开方法--
-		/// <summary>
-		/// Type=1001 酷Q启动<para/>
-		/// 处理 酷Q 的启动事件回调
-		/// </summary>
-		/// <param name="sender">事件的触发对象</param>
-		/// <param name="e">事件的附加参数</param>
-		public void CqStartup (object sender, EventArgs e)
+        IJingCai _jingCaiTask;
+        public Event_AppStatus(IJingCai jingCaiTask)
+        {
+            _jingCaiTask = jingCaiTask;
+        }
+        #region --公开方法--
+        /// <summary>
+        /// Type=1001 酷Q启动<para/>
+        /// 处理 酷Q 的启动事件回调
+        /// </summary>
+        /// <param name="sender">事件的触发对象</param>
+        /// <param name="e">事件的附加参数</param>
+        public void CqStartup (object sender, EventArgs e)
 		{
 			// 本子程序会在酷Q【主线程】中被调用。
 			// 无论本应用是否被启用，本函数都会在酷Q启动后执行一次，请在这里执行插件初始化代码。
@@ -24,10 +30,10 @@ namespace Native.Csharp.App.Event
 
 			Common.AppDirectory = Common.CqApi.GetAppDirectory ();  // 获取应用数据目录 (无需存储数据时, 请将此行注释)
 
-
-			// 返回如：D:\CoolQ\app\com.example.demo\
-			// 应用的所有数据、配置【必须】存放于此目录，避免给用户带来困扰。
-		}
+            _jingCaiTask.Run();
+            // 返回如：D:\CoolQ\app\com.example.demo\
+            // 应用的所有数据、配置【必须】存放于此目录，避免给用户带来困扰。
+        }
 
 		/// <summary>
 		/// Type=1002 酷Q退出<para/>
@@ -37,11 +43,11 @@ namespace Native.Csharp.App.Event
 		/// <param name="e">事件的附加参数</param>
 		public void CqExit (object sender, EventArgs e)
 		{
-			// 本子程序会在酷Q【主线程】中被调用。
-			// 无论本应用是否被启用，本函数都会在酷Q退出前执行一次，请在这里执行插件关闭代码。
+            // 本子程序会在酷Q【主线程】中被调用。
+            // 无论本应用是否被启用，本函数都会在酷Q退出前执行一次，请在这里执行插件关闭代码。
+            _jingCaiTask.Stop();
 
-
-		}
+        }
 
 		/// <summary>
 		/// Type=1003 应用被启用<para/>

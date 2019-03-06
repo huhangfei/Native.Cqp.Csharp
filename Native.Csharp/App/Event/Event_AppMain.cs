@@ -45,6 +45,8 @@ namespace Native.Csharp.App.Event
             container.RegisterType<IGroupManager, GroupManager>();
             container.RegisterType<IConfig, ConfigImpl>();
             container.RegisterType<IXuanShang, XuanShangImpl>();
+            container.RegisterType<IJingCai, JingCai>();
+            container.RegisterType<IJingCaiChaXun, JingCaiChaXun>();
 
 
         }

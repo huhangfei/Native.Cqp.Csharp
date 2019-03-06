@@ -16,10 +16,12 @@ namespace Native.Csharp.Business
     {
         IXuanShang _xuanShang;
         IConfig _config;
-        public GroupManager(IConfig config, IXuanShang xuanShang)
+        IJingCaiChaXun _jingCaiChaXun;
+        public GroupManager(IConfig config, IXuanShang xuanShang, IJingCaiChaXun jingCaiChaXun)
         {
             _config = config;
             _xuanShang = xuanShang;
+            _jingCaiChaXun = jingCaiChaXun;
         }
         /// <summary>
 		/// Type=302 群事件 - 群请求 - 申请入群<para/>
@@ -88,20 +90,35 @@ namespace Native.Csharp.Business
             var config = _config.Get();
             if (config == null || config.groupIds.Count(n => n == e.FromGroup) <= 0)
                 return;
-            if (string.IsNullOrEmpty(e.Msg) || e.Msg.IndexOf(config.cmdPrefix) < 0)
-                return;
-            if (e.Msg.Substring(0, config.cmdPrefix.Length).ToLower() != config.cmdPrefix.ToLower())
+            if (string.IsNullOrEmpty(e.Msg) || (e.Msg.IndexOf(config.cmdPrefix) < 0 && e.Msg.IndexOf(config.jingCaiCmdPrefix)<0))
                 return;
             string msg = string.Empty;
-            try
+            if (e.Msg.Substring(0, config.cmdPrefix.Length).ToLower() == config.cmdPrefix.ToLower())
             {
-                msg=_xuanShang.Get(e.Msg.Replace(config.cmdPrefix, ""));
+                try
+                {
+                    msg = _xuanShang.Get(e.Msg.Replace(config.cmdPrefix, ""));
+                }
+                catch (Exception ex)
+                {
+                    msg = ex.Message;
+                }
+
             }
-            catch (Exception ex)
+            else if(e.Msg.Substring(0, config.jingCaiCmdPrefix.Length).ToLower() == config.jingCaiCmdPrefix.ToLower()) {
+                try
+                {
+                    msg = _jingCaiChaXun.GetMsg();
+                }
+                catch (Exception ex)
+                {
+                    msg = ex.Message;
+                }
+            }
+            if (!string.IsNullOrEmpty(msg))
             {
-                msg = ex.Message;
+                Common.CqApi.SendGroupMessage(e.FromGroup, Common.CqApi.CqCode_At(e.FromQQ) + "\r\n" + msg);
             }
-            Common.CqApi.SendGroupMessage(e.FromGroup, Common.CqApi.CqCode_At(e.FromQQ)+"\r\n"+ msg);
             e.Handled = true;
         }
 

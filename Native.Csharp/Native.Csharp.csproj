@@ -123,7 +123,13 @@
     <Compile Include="Business\GroupManager.cs" />
     <Compile Include="Business\IConfig.cs" />
     <Compile Include="Business\IGroupManager.cs" />
+    <Compile Include="Business\IJingCai.cs" />
+    <Compile Include="Business\IJingCaiChaXun.cs" />
     <Compile Include="Business\IXuanShang.cs" />
+    <Compile Include="Business\JingCai.cs" />
+    <Compile Include="Business\JingCaiChaXun.cs" />
+    <Compile Include="Business\Model\JingCaiInfo.cs" />
+    <Compile Include="Business\Model\JingCaiWinRateInfo.cs" />
     <Compile Include="Business\UI\Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,9 +167,7 @@
       <LastGenOutput>LibExport.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Business\Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ImportGroup Label=".NET DllExport" />
   <ImportGroup Label=".NET DllExport" />
