@@ -15,10 +15,8 @@ namespace Native.Csharp.Business
     public class JingCai : IJingCai
     {
         Thread thread;
-
         IConfig _configServer;
         IJingCaiChaXun _jingCaiChaXun;
-       
 
         public JingCai(IConfig configServer, IJingCaiChaXun jingCaiChaXun)
         {
@@ -28,10 +26,6 @@ namespace Native.Csharp.Business
         }
 
         Dictionary<string, bool> sendLog = new Dictionary<string, bool>();
-
-        private int lastSendM = 0;
-
-        private DateTime lasetSendDateTime;
 
         /// <summary>
         /// 启动
@@ -61,30 +55,22 @@ namespace Native.Csharp.Business
         {
             var sysConfig = _configServer.Get();
             DateTime current = DateTime.Now;
-
             if (current >= sysConfig.jingCaiKaiShiShiJian && current <= sysConfig.jingCaiJieShuShiJian)
             {
                 try
                 {
                     foreach (int lastm in sysConfig.jingCaiLastMinute.OrderByDescending(x=>x))
                     { 
-                        if (KaiShiJieShuJianCe(lastm))
+                        DateTime sendDateTime = LastMToNextDateTime(lastm);
+                        string key = sendDateTime.ToString("yyyyMMddHHmm");
+
+                        if (key == current.ToString("yyyyMMddHHmm"))
                         {
-                            if (lastSendM != 0 && lasetSendDateTime != null && (lastSendM - lastm) > (current - lasetSendDateTime).TotalMinutes)
-                            {
-                                continue;
-                            }
-
-                            DateTime nextDateTime = XiaCiKaiJuShiJian();
-                            string key = nextDateTime.ToString("yyyyMMddHHmmss") + "_" + lastm;
-
                             //判断是否发送过
                             if (!sendLog.ContainsKey(key) || !sendLog[key])
                             {
                                 //发送提示
                                 SendMsg();
-                                lastSendM = lastm;
-                                lasetSendDateTime = current;
                                 //发送完写入日志
                                 if (sendLog.ContainsKey(key))
                                 {
@@ -101,35 +87,25 @@ namespace Native.Csharp.Business
                 }
                 catch (Exception ex) {
                 }
-
-                Thread.Sleep(10000);
+                Thread.Sleep(2000);
             }
             else {
                  Thread.Sleep(18000);
             }
             Job();
         }
-        /// <summary>
-        /// 临近开始结束检测
-        /// </summary>
-        /// <returns></returns>
-        private bool KaiShiJieShuJianCe(int lastMinute)
-        {
-            if (KaiJuZuiHouFenZhong() <= lastMinute)
-            {
-                return true;
-            }
-            return false;
-        }
-
         private int KaiJuZuiHouFenZhong()
         {
             DateTime nextDateTime = XiaCiKaiJuShiJian();
             DateTime current = DateTime.Now;
-            return (int)(nextDateTime - current).TotalMinutes;
+            return (int)Math.Round((nextDateTime - current).TotalMinutes);
         }
+        private DateTime LastMToNextDateTime(int lastMinute)
+        {
+            DateTime nextDateTime= XiaCiKaiJuShiJian();
 
-
+            return nextDateTime.AddMinutes(-lastMinute); ;
+        }
         /// <summary>
         /// 下次开局时间
         /// </summary>
