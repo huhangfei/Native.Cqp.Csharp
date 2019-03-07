@@ -54,45 +54,49 @@ namespace Native.Csharp.Business
         private void Job()
         {
             var sysConfig = _configServer.Get();
-            DateTime current = DateTime.Now;
-            if (current >= sysConfig.jingCaiKaiShiShiJian && current <= sysConfig.jingCaiJieShuShiJian)
+            while (true)
             {
-                try
+                DateTime current = DateTime.Now;
+                if (current >= sysConfig.jingCaiKaiShiShiJian && current <= sysConfig.jingCaiJieShuShiJian)
                 {
-                    foreach (int lastm in sysConfig.jingCaiLastMinute.OrderByDescending(x=>x))
-                    { 
-                        DateTime sendDateTime = LastMToNextDateTime(lastm);
-                        string key = sendDateTime.ToString("yyyyMMddHHmm");
-
-                        if (key == current.ToString("yyyyMMddHHmm"))
+                    try
+                    {
+                        foreach (int lastm in sysConfig.jingCaiLastMinute.OrderByDescending(x => x))
                         {
-                            //判断是否发送过
-                            if (!sendLog.ContainsKey(key) || !sendLog[key])
+                            DateTime sendDateTime = LastMToNextDateTime(lastm);
+                            string key = sendDateTime.ToString("yyyyMMddHHmm");
+
+                            if (key == current.ToString("yyyyMMddHHmm"))
                             {
-                                //发送提示
-                                SendMsg();
-                                //发送完写入日志
-                                if (sendLog.ContainsKey(key))
+                                //判断是否发送过
+                                if (!sendLog.ContainsKey(key) || !sendLog[key])
                                 {
-                                    sendLog[key] = true;
-                                }
-                                else
-                                {
-                                    sendLog.Add(key, true);
+                                    //发送提示
+                                    SendMsg();
+                                    //发送完写入日志
+                                    if (sendLog.ContainsKey(key))
+                                    {
+                                        sendLog[key] = true;
+                                    }
+                                    else
+                                    {
+                                        sendLog.Add(key, true);
+                                    }
                                 }
                             }
                         }
-                    }
 
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                    Thread.Sleep(2000);
                 }
-                catch (Exception ex) {
+                else
+                {
+                    Thread.Sleep(18000);
                 }
-                Thread.Sleep(2000);
             }
-            else {
-                 Thread.Sleep(18000);
-            }
-            Job();
         }
         private int KaiJuZuiHouFenZhong()
         {
