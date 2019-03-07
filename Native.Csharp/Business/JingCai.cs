@@ -143,12 +143,17 @@ namespace Native.Csharp.Business
             msg.Append("【重要播报，请注意】");
             msg.Append(q);
             msg.AppendFormat("本句对弈竞猜押注时间剩余{0}分钟，大家抓紧下注~", KaiJuZuiHouFenZhong());
-            //抓取模拟比率
-            string jingCaiYuCe= _jingCaiChaXun.GetMsg();
-            msg.Append(q);
-            msg.Append(jingCaiYuCe);
-            msg.Append(q);
-            msg.Append("温馨提示：小赌怡情，大赌伤身。预测仅供参考~");
+            try
+            {
+                //抓取模拟比率
+                string jingCaiYuCe = _jingCaiChaXun.GetMsg();
+                msg.Append(q);
+                msg.Append(jingCaiYuCe);
+                msg.Append(q);
+                msg.Append("温馨提示：小赌怡情，大赌伤身。预测仅供参考~");
+            }
+            catch {
+            }
             foreach (var id in sysConfig.groupIds)
             {
                 Common.CqApi.SendGroupMessage(id, msg.ToString());
