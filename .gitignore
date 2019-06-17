@@ -261,3 +261,6 @@ __pycache__/
 *.pyc
 /Native.Sdk/Cqp.Tool
 /Native.Csharp/Sdk.Cqp/Api/CnApi.cs
+
+
+packages
