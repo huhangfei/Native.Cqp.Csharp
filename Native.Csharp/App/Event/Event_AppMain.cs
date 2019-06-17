@@ -4,11 +4,9 @@ using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Text;
 using Unity;
-using Native.Csharp.App.Core;
 using Native.Csharp.App.Interface;
-using Native.Csharp.App.Model;
-using Native.Csharp.Sdk.Cqp.Api;
-using Native.Csharp.Business;
+using Native.Csharp.App.EventArgs;
+using Native.Csharp.Sdk.Cqp;
 
 namespace Native.Csharp.App.Event
 {
@@ -20,32 +18,24 @@ namespace Native.Csharp.App.Event
 		/// <param name="builder"></param>
 		public static void Registbackcall (IUnityContainer container)
 		{
-			#region --回调注入--
-			// 注册 Event_AppStatus 类, 继承于 IEvent_AppStatus
-			container.RegisterType<IEvent_AppStatus, Event_AppStatus> ();
+            // 此方法的参数 container 是于插件加载时初始化好的反向注入容器 (IOC 容器)
+            // 在注入之前请先运行在 Core 文件夹下的所有 .tt 文件, 保证这里的注入能成功
+            // 
+            // 注入说明: 
+            //  1. 消息类 (Json 文件中的 event 节点): 使用 container.RegisterType<接口, 对应实现类> ("Json 文件对应事件的 name 字段的值") 的方式进行注入
+            //  2. 菜单类 (Json 文件中的 menu 节点):  使用 container.RegisterType<接口, 对应实现类> ("Json 文件对应事件的 name 字段的值") 的方式进行注入
+            //  3. 状态类 (Json 文件中的 status 节点):使用 container.RegisterType<接口, 对应实现类> ("Json 文件对应事件的 name 字段的值") 的方式进行注入
+            //
+            // 以下为 Json 文件中的 1001, 1002, 1003, 1004 事件的注入
 
-			// 注册 Event_DiscussMessage 类, 继承于 IEvent_DiscussMessage
-			container.RegisterType<IEvent_DiscussMessage, Event_DiscussMessage> ();
-
-			// 注册 IEvent_FriendMessage 类, 继承于 Event_FriendMessage
-			container.RegisterType<IEvent_FriendMessage, Event_FriendMessage> ();
-
-			// 注册 IEvent_GroupMessage 类, 继承于 Event_GroupMessage
-			//container.RegisterType<IEvent_GroupMessage, Event_GroupMessage> ();
-            container.RegisterType<IEvent_GroupMessage, GroupManager>();
-            // 注册 IEvent_OtherMessage 类, 继承于 Event_OtherMessage
-            container.RegisterType<IEvent_OtherMessage, Event_OtherMessage> ();
-			#endregion
-
-			// 当需要新注册回调类型时
-			// 在此写上需要注册的回调类型, 以 <接口, 实现类> 的方式进行注册
-			container.RegisterType<IEvent_UserExpand, Event_UserExpand> ();
-
-            //群管理实现
-            container.RegisterType<IGroupManager, GroupManager>();
-            container.RegisterType<IConfig, ConfigImpl>();
-
-
+            // 注入 Type=1001 的回调
+            container.RegisterType<ICqStartup, Event_CqStartup> ("酷Q启动事件");
+            // 注入 Type=1002 的回调
+            container.RegisterType<ICqExit, Event_CqExit> ("酷Q关闭事件");
+            // 注入 Type=1003 的回调
+            container.RegisterType<ICqAppEnable, Event_CqAppEnable> ("应用已被启用");
+            // 注入 Type=1004 的回调
+            container.RegisterType<ICqAppDisable, Event_CqAppDisable> ("应用将被停用");
         }
 
 		/// <summary>
@@ -54,66 +44,12 @@ namespace Native.Csharp.App.Event
 		/// <param name="container"></param>
 		public static void Resolvebackcall (IUnityContainer container)
 		{
-			#region --IEvent_AppStatus--
-			// 解析 IEvent_AppStatus 接口
-			IEvent_AppStatus appStatus = container.Resolve<IEvent_AppStatus> ();
-
-			// 分发 IEvent_AppStatus 接口到事件
-			LibExport.CqStartup += appStatus.CqStartup;
-			LibExport.CqExit += appStatus.CqExit;
-			LibExport.AppEnable += appStatus.AppEnable;
-			LibExport.AppDisable += appStatus.AppDisable;
-			#endregion
-
-			#region --IEvent_DiscussMessage--
-			// 解析 IEvent_DiscussMessage 接口
-			IEvent_DiscussMessage discussMessage = container.Resolve<IEvent_DiscussMessage> ();
-
-			// 分发 IEvent_DiscussMessage 接口到事件
-			LibExport.ReceiveDiscussMessage += discussMessage.ReceiveDiscussMessage;
-			LibExport.ReceiveDiscussPrivateMessage += discussMessage.ReceiveDiscussPrivateMessage;
-			#endregion
-
-			#region --IEvent_FriendMessage--
-			// 解析 IEvent_FriendMessage 接口
-			IEvent_FriendMessage friendMessage = container.Resolve<IEvent_FriendMessage> ();
-
-			// 分发 IEvent_FriendMessage 接口到事件
-			LibExport.ReceiveFriendAdd += friendMessage.ReceiveFriednAddRequest;
-			LibExport.ReceiveFriendIncrease += friendMessage.ReceiveFriendIncrease;
-			LibExport.ReceiveFriendMessage += friendMessage.ReceiveFriendMessage;
-			#endregion
-
-			#region --IEvent_GroupMessage--
-			// 解析 IEvent_GroupMessage 接口
-			IEvent_GroupMessage groupMessage = container.Resolve<IEvent_GroupMessage> ();
-
-			// 分发 IEvent_GroupMessage 接口到事件
-			LibExport.ReceiveGroupMessage += groupMessage.ReceiveGroupMessage;
-			LibExport.ReceiveGroupPrivateMessage += groupMessage.ReceiveGroupPrivateMessage;
-			LibExport.ReceiveFileUploadMessage += groupMessage.ReceiveGroupFileUpload;
-			LibExport.ReceiveManageIncrease += groupMessage.ReceiveGroupManageIncrease;
-			LibExport.ReceiveManageDecrease += groupMessage.ReceiveGroupManageDecrease;
-			LibExport.ReceiveMemberJoin += groupMessage.ReceiveGroupMemberJoin;
-			LibExport.ReceiveMemberInvitee += groupMessage.ReceiveGroupMemberInvitee;
-			LibExport.ReceiveMemberLeave += groupMessage.ReceiveGroupMemberLeave;
-			LibExport.ReceiveMemberRemove += groupMessage.ReceiveGroupMemberRemove;
-			LibExport.ReceiveGroupAddApply += groupMessage.ReceiveGroupAddApply;
-			LibExport.ReceiveGroupAddInvitee += groupMessage.ReceiveGroupAddInvitee;
-			#endregion
-
-			#region --IEvent_OtherMessage--
-			// 解析 IEvent_OtherMessage 接口
-			IEvent_OtherMessage otherMessage = container.Resolve<IEvent_OtherMessage> ();
-
-			// 分发 IEvent_OtherMessage 接口到事件
-			LibExport.ReceiveQnlineStatusMessage += otherMessage.ReceiveOnlineStatusMessage;
-			#endregion
-
-			// 当已经注入了新的回调类型时
-			// 在此分发已经注册的回调类型, 解析完毕后分发到导出的事件进行注册
-			IEvent_UserExpand userExpand = container.Resolve<IEvent_UserExpand> ();
-			UserExport.UserOpenConsole += userExpand.OpenConsoleWindow;
+            // 此方法的参数 container 是于插件加载时初始化好的反向注入容器 (IOC 容器)
+            // 在此分发需要将指定的对象通过容器进行实例化然后发往对应的位置
+            //
+            // 说明: 
+            //      由于采用了新的容器解析机制, 所以此方法不需要写任何的分发过程
+            //      此方法的使用需要熟悉 Unity 框架 (IOC 框架)
 		}
 	}
 }

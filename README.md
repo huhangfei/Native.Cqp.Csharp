@@ -1,21 +1,21 @@
 ## Native.SDK 优点介绍
 
 > 1. 程序集脱库打包
-> 2. 原生c#开发体验
+> 2. 类UWP开发体验
 > 3. 完美翻译酷QApi
 > 4. 支持酷Q应用打包
-> 5. 支持代码实时调试
+> 5. 支持附加进程调试
 
 ## Native.SDK 项目结构
 
-![SDK结构](https://github.com/Jie2GG/Image/blob/master/NativeSDK(0).png?raw=true "SDK结构") <br/>
+![SDK结构](https://github.com/Jie2GG/Image/blob/master/NativeSDK(0).png "SDK结构") <br/>
 
 ## Native.SDK 开发环境
 
 >1. Visual Studio 2012 或更高版本
 >2. Microsoft .Net Framework 4.0 **(XP系统支持的最后一个版本)**
 
-## Native.SDK 开发流程
+## Native.SDK 部署流程
 
 	1. 下载并打开 Native.SDK
 	2. 打开 Native.Csharp 项目属性, 修改 "应用程序" 中的 "程序集名称" 为你的AppId(规则参见http://d.cqp.me/Pro/开发/基础信息)
@@ -27,15 +27,13 @@
 
 ## Native.SDK 调试流程
 
-	1. 打开菜单 生成 -> 配置管理器, 修改 "Native.Csharp" 项目的生成方式为 "Debug x86" 生成方式
-	2. 打开项目 Native.Csharp 项目属性, 修改 "生成" 中的 "输出路径" 至酷Q的 "app" 目录
-	3. 修改 "调试" 中的 "启动操作" 为 "启动外部程序", 并且定位到酷Q主程序
-	4. 打开菜单 工具 -> 选项 -> 调试, 关闭 "要求源文件与原始版本匹配" 选项
-	
-	若还是不行调试?
-	5. 打开项目 Native.Csharp 项目属性, 打开 "调试" 中的 "启用本地代码调试" 选项, 保存即可
-	
-	此时 Native.SDK 已经可以进行实时调试!
+    1. 打开 酷Q Air/Pro, 并且登录机器人账号
+    2. 打开 Native.Csharp 项目, 修改 "生成" 中的 "输出路径" 为 酷Q的 "dev" 路径
+    3. 重新生成 Native.Csharp 项目
+    4. 在酷Q上使用 "重载应用" 功能, 重载所有应用
+    5. 依次选择VS的菜单项: "调试" -> "附加到进程"
+    6. 选择 CQA.exe/CQP.exe 的托管进程, 选择附加
+    7. 附加成功后进入调试模式, 即可进行断点 (注: 仅在只加载一个 .Net 应用的酷Q可以进行调试)
 
 ## Native.SDK 已知问题
 	
@@ -45,6 +43,145 @@
 > 4. ~~对于接收消息时, 颜文字表情, 特殊符号乱码, 当前正在寻找转换方式~~ <font color=#FF0000>(已修复)</font>
 
 ## Native.SDK 更新日志
+> 2019年06月15日 版本: V3.1.0.0615
+
+	1. 新增 MenuExport.tt 模板, 用于解析项目 Json 文件中的回调函数
+	2. 新增 StatusExport.tt 模板, 用于解析项目 Json 文件中的回调函数
+	3. 重写 LibExport.tt 模板, 用于解析项目 Json 文件中的回调函数
+	4. 重写 Interface 中的接口, 分离所有事件为单独接口
+	5. 重写 Model 中的所有模型, 更改为 EventArgs , 并重写所有事件
+	6. 优化 为 Common.cs 增加 App名称 (酷Q应用列表显示的名称)
+	7. 优化 为 Common.cs 增加 App版本 (酷Q应用列表显示的版本)
+	8. 优化 为所有事件参数类增加 Json 文件对应的 Id, Name, Type 参数
+	9. 优化 预置 Json 解析 nuget 包 (tt 模板关键组件, 请勿删除)
+	10. 优化 调整了 IOC 容器的注册方式
+	11. 优化 调整了 IOC 容器的实例化方式
+	12. 修复 一些零碎的已知问题
+
+> 2019年06月07日 版本: V3.0.7.0607
+
+	由于 酷Q 停止对 Windows XP/Vista 系统的支持, 所以 Native.SDK 将停止继续使用 .Net 4.0 
+	并将此版本作为最终发布版归档处理, 下个版本开始仅对 .Net 4.5+ 更新
+
+	1. 修复 悬浮窗数据转换错误 (由 Pack -> BinaryWriter)
+	2. 优化 部分 Api 接口的数据处理效率 (由 UnPack -> BinaryReader)
+	3. 优化 分离 Native.Csharp.Tool 项目, 使 SDK 更轻量
+	4. 优化 调整 Native.Csharp.Tool 项目结构, 每个模块为一个根文件夹. 排除即可在编译时移除功能
+	5. 优化 新增 HttpTool (位于 Native.Csharp.Tool.Http)
+	6. 新增 SQLite 操作类 (不包含EF, 需要可自行添加), 完全移植自 System.Data.SQLite (.Net 4.0)
+
+> 2019年05月25日 版本: V3.0.6.0525
+
+	1. 修复 HttpWebClient 类在请求 Internet 资源时响应重定向的部分代码错误
+	2. 优化 HttpWebClient 类可指定自动合并更新 Cookies 功能
+	3. 优化 CqMsg 类代码运行流程, 更符合规范
+	4. 优化 CqCode 类, 支持获取当前实例在原文中的位置
+	5. 优化 CqCode 类, 支持获取当前实例的原始字符串
+
+> 2019年05月21日 版本: V3.0.5.0521
+
+	1. 修复 兼容组件导致WFP窗体加载会出现资源无法找到
+
+> 2019年05月17日 版本: V3.0.4.0517
+
+	1. 修复 附加进程调试加载符号库出错
+
+> 2019年05月14日 版本: V3.0.3.0514
+
+	1. 修复 Repair 兼容组件不能正确重定向 (但是旧版本要兼容必须先关闭 Costura 的重定向, LoadAtModuleInit="False")
+	2. 关闭 Costura 的重定向功能, 且在 SDK 加载时自动初始化
+
+> 2019年05月12日 版本: V3.0.2.0512
+
+	1. 修复 Fody 不兼容 Visual Studio 导致编译不通过的问题
+
+> 2019年05月12日 版本: V3.0.1.0512
+
+	1. 修复 从 Github 拉取项目后导致编译失败
+	2. 转换 Native.Csharp.json 文件为 UTF-8 编码
+
+> 2019年05月10日 版本: V3.0.1.0510
+
+	说明: 由于酷Q改动了应用加载机制, 将所有开发中的应用都迁移至 dev 文件夹下, 所以本次更新将针对此优化进行改动
+
+    1. 修复 Native.Csharp.Repair 应用兼容组件运行时间不正确
+    2. 新增 SDK 生成前自动检查是否存在 AppID 目录
+    3. 新增 SDK 生成前自动清理旧版 app.dll app.json 文件
+    4. 新增 SDK 生成后自动复制并重命名程序集为 app.dll 自动复制并重命名json文件为 app.json
+    5. 新增 SDK 生成后自动清理原生成目录下的程序集和 json 文件
+
+> 2019年05月04日 版本: V3.0.0.0504
+
+	说明: 由于酷Q改动了应用机制, 因此升级时请务必保存代码, 进行代码迁移升级!
+	注意: 本次升级相对于之前的版本应用间不兼容做出了修改, 但是其机制导致了与旧版不兼容, 请酌情升级!
+
+    1. 修复 CqApi.AddFatalError 方法传递错误时可能引发酷Q堆栈错误
+    2. 修复 AppDomain.UnhandledException 全局异常捕获失效, 现在支持定位到方法
+    3. 优化 AppDemain.UnhandledException 全局异常捕获解析方式
+    4. 优化 项目版本号, 统一为项目新增当前版本号以区分
+    5. 优化 项目事件模型, 抽象 EventArgsBase 类作为公共抽象类
+    6. 优化 CqMsg 类, 完善 CqCodeType 枚举
+    7. 优化 CqMsg 类, 更改 CqCode.Content 为字典, 而非键值对集合
+    8. 优化 调试机制, 根据 酷Q 应用机制变动而转变为附加调试
+    9. 优化 IOC容器的注册方式
+    10.新增 Native.Csharp.Repair 组件, 改组件为原 (@成音S) 大佬的 .Net 兼容组件
+    11.移除 Event_AppMain.Initialize 方法, 保证应用加载效率
+
+> 2019年04月09日 版本: V2.7.3
+
+	1. 修复 CqMsg 类针对 VS2012 的兼容问题
+	2. 修复 HttpWebClient 类在增加 Cookies 时, 参数 "{0}" 为空字符串的异常
+	3. 新增 HttpWebClient 类属性 "KeepAlive", 允许指定 HttpWebClient 在做请求时是否建立持续型的 Internal 连接
+
+> 2019年04月06日 版本: V2.7.2
+
+	1. 优化 Native.Csharp.Sdk 项目的结构, 修改类: CqApi 的命名空间
+	2. 新增 消息解析类: CqMsg
+	
+``` C#
+// 使用方法如下, 例如在群消息接受方法中
+public void ReceiveGroupMessage (object sender, GroupMessageEventArgs e)
+{
+	var parseResult = CqMsg.Parse (e.Msg);		// 使用消息解析
+	List<CqCode> cqCodes =  parseResult.Contents;	// 获取消息中所有的 CQ码
+	
+	// 此时, 获取到的 cqCodes 中就包含此条消息所有的 CQ码
+}
+```
+
+> 2019年03月12日 版本: V2.7.1
+
+	1. 新增 Sex 枚举中未知性别, 值为 255
+	2. 优化 IOC 容器在获取对象时, 默认拉取所有注入的对象, 简化消息类接口的注入流程.
+
+> 2019年03月03日 版本: V2.7.0
+
+	本次更新于响应 "酷Q" 官方 "易语言 SDK" 的迭代更新
+	
+	1. 新增 CqApi.ReceiveImage (用于获取消息中 "图片" 的绝对路径)
+	2. 新增 CqApi.GetSendRecordSupport (用于获取 "是否支持发送语音", 即用于区别 Air 和 Pro 版本之间的区别)
+	3. 新增 CqApi.GetSendImageSupport (用于获取 "是否支持发送图片", 即用于区别 Air 和 Pro 版本指间的区别)
+	4. 优化 CqApi.ReceiveRecord 方法, 使其获取到的语音路径为绝对路径, 而非相对路径
+
+> 2019年02月26日 版本: V2.6.4
+
+	1. 默认注释 Event_GroupMessage 中 ReceiveGroupMessage 方法的部分代码, 防止因为机器人复读群消息而禁言
+
+> 2019年02月20日 版本: V2.6.3
+
+	1. 还原 Event_AppMain.Resolvebackcall 方法的执行, 防止偶尔获取不到注入的类
+
+> 2019年02月20日 版本: V2.6.2
+
+	1. 更新 Native.Chsarp 项目的部分注释
+	2. 新增 Event_AppMain.Initialize 方法, 位于 "Native.Csharp.App.Event" 下, 用于当作本项目的初始化方法
+	3. 优化 Event_AppMain.Resolvebackcall 方法的执行, 默认将依据接口注入的类型全部实例化并取出分发到事件上 
+
+> 2019年02月16日 版本: V2.6.1
+
+	1. 优化 FodyWeavers.xml 配置, 为其加上注释. 方便开发者使用
+	2. 修复 IniValue 中 ToType 方法导致栈溢出的
+
 > 2019年01月26日 版本: V2.6.0
 
 	说明: 此次更新重构了 Native.Csharp 项目, 全面采用依赖注入框架, 提升 SDK 可扩展性、可移植性

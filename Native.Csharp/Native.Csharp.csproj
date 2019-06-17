@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Costura.Fody.3.2.1\build\Costura.Fody.props" Condition="Exists('..\packages\Costura.Fody.3.2.1\build\Costura.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,20 +8,22 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Native.Csharp</RootNamespace>
-    <AssemblyName>com.yingyingying.groupmanager</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <AssemblyName>Native.Csharp</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\..\..\onlinesvn\myCq\CQA-xiaoi\酷Q Air\app\</OutputPath>
+    <OutputPath>bin\x86\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -32,6 +33,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <DllExportIdent>51E770DA-4067-41D5-AC2F-617CDBD2BA20</DllExportIdent>
@@ -50,8 +52,9 @@
     <Reference Include="CommonServiceLocator, Version=2.0.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.5.8.6\lib\net40\CommonServiceLocator.dll</HintPath>
     </Reference>
-    <Reference Include="Costura, Version=3.2.1.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
-      <HintPath>..\packages\Costura.Fody.3.2.1\lib\net40\Costura.dll</HintPath>
+    <Reference Include="Costura, Version=1.6.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Costura.Fody.1.6.2\lib\dotnet\Costura.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="DllExport, PublicKeyToken=8337224c9ad9e356">
       <HintPath>$(SolutionDir)packages\DllExport.1.6.1\gcache\metalib\$(DllExportNamespace)\$(DllExportMetaLibName)</HintPath>
@@ -59,19 +62,15 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="RazorEngine, Version=3.10.0.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
-      <HintPath>..\packages\RazorEngine.3.10.0\lib\net40\RazorEngine.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -92,75 +91,102 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App\Common.cs" />
-    <Compile Include="Business\ConfigImpl.cs" />
-    <Compile Include="Business\Config\GroupManagerConfig.cs" />
     <Compile Include="App\Core\LibExport.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>LibExport.tt</DependentUpon>
     </Compile>
-    <Compile Include="App\Core\UserExport.cs" />
+    <Compile Include="App\Core\MenuExport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MenuExport.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App\Core\StatusExport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StatusExport.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App\EventArgs\CqAddFriendRequestEventArgs.cs" />
+    <Compile Include="App\EventArgs\CqAddGroupRequestEventArgs.cs" />
+    <Compile Include="App\EventArgs\CqAppDisableEventArgs.cs" />
+    <Compile Include="App\EventArgs\CqAppEnableEventArgs.cs" />
+    <Compile Include="App\EventArgs\CqCallMenuEventArgs.cs" />
+    <Compile Include="App\EventArgs\CqEventArgsBase.cs" />
+    <Compile Include="App\EventArgs\CqExitEventArgs.cs" />
+    <Compile Include="App\EventArgs\CqDiscussMessageEventArgs.cs" />
+    <Compile Include="App\EventArgs\CqStatusEventArgs.cs" />
+    <Compile Include="App\EventArgs\CqFriendIncreaseEventArgs.cs" />
+    <Compile Include="App\EventArgs\CqGroupFileUploadEventArgs.cs" />
+    <Compile Include="App\EventArgs\CqGroupManageChangeEventArgs.cs" />
+    <Compile Include="App\EventArgs\CqGroupMemberDecreaseEventArgs.cs" />
+    <Compile Include="App\EventArgs\CqGroupMemberIncreaseEventArgs.cs" />
+    <Compile Include="App\EventArgs\CqGroupMessageEventArgs.cs" />
+    <Compile Include="App\EventArgs\CqPrivateMessageEventArgs.cs" />
+    <Compile Include="App\EventArgs\CqStartupEventArgs.cs" />
+    <Compile Include="App\Event\Event_CqAppDisable.cs" />
+    <Compile Include="App\Event\Event_CqAppEnable.cs" />
     <Compile Include="App\Event\Event_AppMain.cs" />
-    <Compile Include="App\Event\Event_AppStatus.cs" />
-    <Compile Include="App\Event\Event_DiscussMessage.cs" />
-    <Compile Include="App\Event\Event_FriendMessage.cs" />
-    <Compile Include="App\Event\Event_GroupMessage.cs" />
-    <Compile Include="App\Event\Event_OtherMessage.cs" />
-    <Compile Include="App\Event\Event_UserExpand.cs" />
-    <Compile Include="App\Interface\IEvent_AppStatus.cs" />
-    <Compile Include="App\Interface\IEvent_DiscussMessage.cs" />
-    <Compile Include="App\Interface\IEvent_FriendMessage.cs" />
-    <Compile Include="App\Interface\IEvent_GroupMessage.cs" />
-    <Compile Include="App\Interface\IEvent_OtherMessage.cs" />
-    <Compile Include="App\Interface\IEvent_UserExpand.cs" />
-    <Compile Include="App\Model\DiscussMessageEventArgs.cs" />
-    <Compile Include="App\Model\FileUploadMessageEventArgs.cs" />
-    <Compile Include="App\Model\FriendAddRequestEventArgs.cs" />
-    <Compile Include="App\Model\FriendIncreaseEventArgs.cs" />
-    <Compile Include="App\Model\GroupAddRequestEventArgs.cs" />
-    <Compile Include="App\Model\GroupManageAlterEventArgs.cs" />
-    <Compile Include="App\Model\GroupMemberAlterEventArgs.cs" />
-    <Compile Include="App\Model\GroupMessageEventArgs.cs" />
-    <Compile Include="App\Model\PrivateMessageEventArgs.cs" />
-    <Compile Include="Business\GroupManager.cs" />
-    <Compile Include="Business\IConfig.cs" />
-    <Compile Include="Business\IGroupManager.cs" />
-    <Compile Include="Business\Model\CurrentSystemVariable.cs" />
-    <Compile Include="Business\UI\Main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Business\UI\Main.Designer.cs">
-      <DependentUpon>Main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Business\Utils.cs" />
+    <Compile Include="App\Event\Event_CqExit.cs" />
+    <Compile Include="App\Event\Event_CqStartup.cs" />
+    <Compile Include="App\Interface\ICqAppDisable.cs" />
+    <Compile Include="App\Interface\ICqAppEnable.cs" />
+    <Compile Include="App\Interface\ICallMenu.cs" />
+    <Compile Include="App\Interface\ICqExit.cs" />
+    <Compile Include="App\Interface\ICqStartup.cs" />
+    <Compile Include="App\Interface\ICqStatus.cs" />
+    <Compile Include="App\Interface\IReceiveDiscussMessage.cs" />
+    <Compile Include="App\Interface\IReceiveDiscussPrivateMessage.cs" />
+    <Compile Include="App\Interface\IReceiveFriendAddRequest.cs" />
+    <Compile Include="App\Interface\IReceiveFriendIncrease.cs" />
+    <Compile Include="App\Interface\IReceiveFriendMessage.cs" />
+    <Compile Include="App\Interface\IReceiveAddGroupRequest.cs" />
+    <Compile Include="App\Interface\IReceiveAddGroupBeInvitee.cs" />
+    <Compile Include="App\Interface\IReceiveGroupFileUpload.cs" />
+    <Compile Include="App\Interface\IReceiveGroupManageDecrease.cs" />
+    <Compile Include="App\Interface\IReceiveGroupManageIncrease.cs" />
+    <Compile Include="App\Interface\IReceiveGroupMemberBeInvitee.cs" />
+    <Compile Include="App\Interface\IReceiveGroupMemberPass.cs" />
+    <Compile Include="App\Interface\IReceiveGroupMemberLeave.cs" />
+    <Compile Include="App\Interface\IReceiveGroupMemberRemove.cs" />
+    <Compile Include="App\Interface\IReceiveGroupMessage.cs" />
+    <Compile Include="App\Interface\IReceiveGroupPrivateMessage.cs" />
+    <Compile Include="App\Interface\IReceiveOnlineStatusMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repair\Core\Kernel32.cs" />
+    <Compile Include="Repair\Enum\LoadLibraryFlags.cs" />
+    <Compile Include="Repair\Helper\AssemblyHelper.cs" />
+    <Compile Include="Repair\Helper\ReflectionHelper.cs" />
+    <Compile Include="Repair\ModuleInitializer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="com.yingyingying.groupmanager.json">
+    <None Include="Native.Csharp.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="FodyWeavers.xml" />
     <None Include="packages.config" />
-    <None Include="Business\yingyingyinggroupmanager.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Native.Csharp.Sdk\Native.Csharp.Sdk.csproj">
       <Project>{797eaebc-4d5b-4eef-87f4-a508fda2cb6a}</Project>
       <Name>Native.Csharp.Sdk</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Native.Csharp.Tool\Native.Csharp.Tool.csproj">
-      <Project>{9db94cbf-6843-4ea3-9241-769124416fe9}</Project>
-      <Name>Native.Csharp.Tool</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App\Core\StatusExport.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>StatusExport.cs</LastGenOutput>
+    </Content>
     <Content Include="App\Core\LibExport.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>LibExport.cs</LastGenOutput>
     </Content>
+    <Content Include="App\Core\MenuExport.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MenuExport.cs</LastGenOutput>
+    </Content>
+    <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -168,7 +194,8 @@
   <ImportGroup Label=".NET DllExport" />
   <ImportGroup Label=".NET DllExport">
     <Import Project="$(SolutionDir)packages\DllExport.1.6.1\tools\net.r_eg.DllExport.targets" Condition="Exists('$(SolutionDir)packages\DllExport.1.6.1\tools\net.r_eg.DllExport.targets')" Label="8337224c9ad9e356" />
-    <Import Project="..\packages\Fody.3.3.3\build\Fody.targets" Condition="Exists('..\packages\Fody.3.3.3\build\Fody.targets')" />
+    <Import Project="..\packages\Fody.2.2.1.0\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\packages\Fody.2.2.1.0\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
+    <Import Project="..\packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets" Condition="Exists('..\packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets')" />
   </ImportGroup>
   <Target Name="DllExportRestorePkg" BeforeTargets="PrepareForBuild">
     <Warning Condition="!Exists('$(SolutionDir)DllExport.bat')" Text="We can't find 'DllExport.bat' in '$(SolutionDir)' - https://github.com/3F/DllExport" />
@@ -177,11 +204,26 @@
   <Target Name="DllExportRPkgDynamicImport" BeforeTargets="PostBuildEvent" DependsOnTargets="GetFrameworkPaths" Condition="'$(DllExportModImported)' != 'true' And '$(DllExportRPkgDyn)' != 'false'">
     <MSBuild BuildInParallel="true" UseResultsCache="true" Projects="$(MSBuildProjectFullPath)" Properties="DllExportRPkgDyn=true" Targets="Build" />
   </Target>
+  <PropertyGroup>
+    <PreBuildEvent>if exist "$(TargetDir)$(TargetName)" (echo 文件夹已存在) else (md "$(TargetDir)$(TargetName)") 
+if exist "$(TargetDir)$(TargetName)\app.dll" (del /F /A /Q "$(TargetDir)$(TargetName)\app.dll") 
+if exist "$(TargetDir)$(TargetName)\app.json" (del /F /A /Q "$(TargetDir)$(TargetName)\app.json")</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>if exist "$(TargetDir)$(TargetName).dll" (
+move "$(TargetDir)$(TargetName).dll" "$(TargetDir)$(TargetName)" 
+rename "$(TargetDir)$(TargetName)\$(TargetName).dll" "app.dll" 
+) 
+if exist "$(TargetDir)$(TargetName).json" (
+move "$(TargetDir)$(TargetName).json" "$(TargetDir)$(TargetName)" 
+rename "$(TargetDir)$(TargetName)\$(TargetName).json" "app.json" 
+)</PostBuildEvent>
+  </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Fody.3.3.3\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.3.3.3\build\Fody.targets'))" />
-    <Error Condition="!Exists('..\packages\Costura.Fody.3.2.1\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.3.2.1\build\Costura.Fody.props'))" />
+    <Error Condition="!Exists('..\packages\Fody.2.2.1.0\build\portable-net+sl+win+wpa+wp\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.2.2.1.0\build\portable-net+sl+win+wpa+wp\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets'))" />
   </Target>
 </Project>
