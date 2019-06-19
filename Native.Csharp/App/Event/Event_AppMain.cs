@@ -7,6 +7,8 @@ using Unity;
 using Native.Csharp.App.Interface;
 using Native.Csharp.App.EventArgs;
 using Native.Csharp.Sdk.Cqp;
+using Native.Csharp.App.Business;
+using Native.Csharp.App.Dao;
 
 namespace Native.Csharp.App.Event
 {
@@ -36,6 +38,14 @@ namespace Native.Csharp.App.Event
             container.RegisterType<ICqAppEnable, Event_CqAppEnable> ("应用已被启用");
             // 注入 Type=1004 的回调
             container.RegisterType<ICqAppDisable, Event_CqAppDisable> ("应用将被停用");
+
+            container.RegisterType<IReceiveGroupMessage, Event_ReceiveGroupMessage>("群消息处理");
+
+            container.RegisterType<IGroupMessageLoger, GroupMessageLogerImpl>();
+
+            container.RegisterType<IConfig, ConfigImpl>();
+
+            container.RegisterType<IGroupMessageInfoDao, GroupMessageInfoDao>();
         }
 
 		/// <summary>
