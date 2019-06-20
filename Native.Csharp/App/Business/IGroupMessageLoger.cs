@@ -4,6 +4,6 @@ namespace Native.Csharp.App.Business
 {
     public interface IGroupMessageLoger
     {
-        void Log(GroupMessageInfo msg);
+        void Log(CqGroupMessage msg);
     }
 }

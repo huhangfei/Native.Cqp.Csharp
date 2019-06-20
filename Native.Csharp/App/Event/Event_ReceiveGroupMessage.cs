@@ -17,18 +17,17 @@ namespace Native.Csharp.App.Event
         {
             try
             {
-                _groupMessageLoger.Log(new Model.GroupMessageInfo()
+                _groupMessageLoger.Log(new Model.CqGroupMessage()
                 {
                     FromQQ = e.FromQQ,
                     Message = e.Message,
                     GroupId = e.FromGroup,
-                    ObtainedTime = DateTime.Now,
-                    MsgId = e.MsgId
+                    CqMsgId = e.MsgId
                 });
             }
             catch (Exception ex)
             {
-                Common.CqApi.AddLoger(Sdk.Cqp.Enum.LogerLevel.Error, "群消息记录异常", "群消息写入异常 msg" + ex.Message);
+                Common.CqApi.AddLoger(Sdk.Cqp.Enum.LogerLevel.Error, "群消息记录异常", "异常：" + ex.Message);
             }
             e.Handler = false;
         }

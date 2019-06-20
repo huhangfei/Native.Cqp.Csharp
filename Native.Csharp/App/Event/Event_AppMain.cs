@@ -42,10 +42,11 @@ namespace Native.Csharp.App.Event
             container.RegisterType<IReceiveGroupMessage, Event_ReceiveGroupMessage>("群消息处理");
 
             container.RegisterType<IGroupMessageLoger, GroupMessageLogerImpl>();
-
             container.RegisterType<IConfig, ConfigImpl>();
 
-            container.RegisterType<IGroupMessageInfoDao, GroupMessageInfoDao>();
+            container.RegisterType<ICqGroupMessageDao, CqGroupMessageDao>();
+            container.RegisterType<ICqMsgDicDao, CqMsgDicDao>();
+            container.RegisterType<ICqMessageAndDicRelationDao, CqMessageAndDicRelationDao>();
         }
 
 		/// <summary>

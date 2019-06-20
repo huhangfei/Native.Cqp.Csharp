@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Native.Csharp.App.Dao
 {
-    public interface IGroupMessageInfoDao
+    public interface ICqMessageAndDicRelationDao
     {
-        void Add(GroupMessageInfo groupMessageInfo);
+        bool Add(CqMessageAndDicRelation cqMessageAndImageRelation);
     }
 }

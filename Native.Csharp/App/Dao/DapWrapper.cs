@@ -220,7 +220,20 @@ namespace Native.Csharp.Dao
                 return conn.Execute(sql, param, commandType: CommandType.Text);
             }
         }
-
+        /// <summary>
+        /// 执行SQL，返回影响行数
+        /// </summary>
+        /// <param name="connString">链接字符串</param>
+        /// <param name="sql">sql语句</param>
+        /// <param name="param">参数</param>
+        /// <returns></returns>
+        public static Task<Int32> InnerExecuteSqlAsync(String connString, String sql, object param)
+        {
+            using (IDbConnection conn = new SqlConnection(connString))
+            {
+                return conn.ExecuteAsync(sql, param, commandType: CommandType.Text);
+            }
+        }
         /// <summary>
         /// 执行PROC，返回影响行数
         /// </summary>

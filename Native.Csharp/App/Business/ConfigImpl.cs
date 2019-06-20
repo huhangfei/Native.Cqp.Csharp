@@ -18,7 +18,7 @@ namespace Native.Csharp.App.Business
         }
         public void Refresh()
         {
-            sysConfig = GetAllFromFile();
+           sysConfig = GetAllFromFile();
         }
 
         private SysConfig GetAllFromFile()

@@ -114,9 +114,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StatusExport.tt</DependentUpon>
     </Compile>
+    <Compile Include="App\Dao\CqMsgDicDao.cs" />
+    <Compile Include="App\Dao\CqMessageAndDicRelationDao.cs" />
     <Compile Include="App\Dao\DapWrapper.cs" />
-    <Compile Include="App\Dao\GroupMessageInfoDao.cs" />
-    <Compile Include="App\Dao\IGroupMessageInfoDao.cs" />
+    <Compile Include="App\Dao\CqGroupMessageDao.cs" />
+    <Compile Include="App\Dao\ICqMsgDicDao.cs" />
+    <Compile Include="App\Dao\ICqGroupMessageDao.cs" />
+    <Compile Include="App\Dao\ICqMessageAndDicRelationDao.cs" />
     <Compile Include="App\EventArgs\CqAddFriendRequestEventArgs.cs" />
     <Compile Include="App\EventArgs\CqAddGroupRequestEventArgs.cs" />
     <Compile Include="App\EventArgs\CqAppDisableEventArgs.cs" />
@@ -163,7 +167,9 @@
     <Compile Include="App\Interface\IReceiveGroupMessage.cs" />
     <Compile Include="App\Interface\IReceiveGroupPrivateMessage.cs" />
     <Compile Include="App\Interface\IReceiveOnlineStatusMessage.cs" />
-    <Compile Include="App\Model\GroupMessageInfo.cs" />
+    <Compile Include="App\Model\CqMsgDic.cs" />
+    <Compile Include="App\Model\CqMessageAndDicRelation.cs" />
+    <Compile Include="App\Model\CqGroupMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repair\Core\Kernel32.cs" />
     <Compile Include="Repair\Enum\LoadLibraryFlags.cs" />
