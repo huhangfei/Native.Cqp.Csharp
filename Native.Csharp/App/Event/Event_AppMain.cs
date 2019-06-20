@@ -9,6 +9,7 @@ using Native.Csharp.App.EventArgs;
 using Native.Csharp.Sdk.Cqp;
 using Native.Csharp.App.Business;
 using Native.Csharp.App.Dao;
+using Native.Csharp.App.Enum;
 
 namespace Native.Csharp.App.Event
 {
@@ -47,6 +48,9 @@ namespace Native.Csharp.App.Event
             container.RegisterType<ICqGroupMessageDao, CqGroupMessageDao>();
             container.RegisterType<ICqMsgDicDao, CqMsgDicDao>();
             container.RegisterType<ICqMessageAndDicRelationDao, CqMessageAndDicRelationDao>();
+
+
+            container.RegisterType<IFileStorage, LocalFileStorage>(FileStorageType.local.ToString());
         }
 
 		/// <summary>

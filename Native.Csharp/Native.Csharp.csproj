@@ -96,7 +96,9 @@
     <Compile Include="App\Business\ConfigImpl.cs" />
     <Compile Include="App\Business\GroupMessageLogerImpl.cs" />
     <Compile Include="App\Business\IConfig.cs" />
+    <Compile Include="App\Business\IFileStorage.cs" />
     <Compile Include="App\Business\IGroupMessageLoger.cs" />
+    <Compile Include="App\Business\LocalFileStorage.cs" />
     <Compile Include="App\Common.cs" />
     <Compile Include="App\Config\SysConfig.cs" />
     <Compile Include="App\Core\LibExport.cs">
@@ -121,6 +123,7 @@
     <Compile Include="App\Dao\ICqMsgDicDao.cs" />
     <Compile Include="App\Dao\ICqGroupMessageDao.cs" />
     <Compile Include="App\Dao\ICqMessageAndDicRelationDao.cs" />
+    <Compile Include="App\Enum\FileStorageType.cs" />
     <Compile Include="App\EventArgs\CqAddFriendRequestEventArgs.cs" />
     <Compile Include="App\EventArgs\CqAddGroupRequestEventArgs.cs" />
     <Compile Include="App\EventArgs\CqAppDisableEventArgs.cs" />
@@ -170,6 +173,7 @@
     <Compile Include="App\Model\CqMsgDic.cs" />
     <Compile Include="App\Model\CqMessageAndDicRelation.cs" />
     <Compile Include="App\Model\CqGroupMessage.cs" />
+    <Compile Include="App\Config\FileStorageBaseConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repair\Core\Kernel32.cs" />
     <Compile Include="Repair\Enum\LoadLibraryFlags.cs" />

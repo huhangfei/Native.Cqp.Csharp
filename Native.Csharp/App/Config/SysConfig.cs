@@ -16,5 +16,10 @@ namespace Native.Csharp.App.Config
         /// 数据库连接
         /// </summary>
         public string dbConnectionString { get; set; }
+
+        /// <summary>
+        /// 文件存储配置
+        /// </summary>
+        public FileStorageBaseConfig fileStorage { get; set; }
     }
 }

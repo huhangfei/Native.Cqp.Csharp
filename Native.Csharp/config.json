@@ -4,5 +4,11 @@
     720332230,
     852797927
   ],
-  "dbConnectionString": "data source=localhost;initial catalog=CqInfo;user id=sa;pwd=public@123"
+  "dbConnectionString": "data source=localhost;initial catalog=CqInfo;user id=sa;pwd=public@123",
+  "fileStorage": {
+    "storageType": "local",
+    "storageConfig": {
+      "path": "E:\\onlinesvn\\myCq\\files"
+    }
+  }
 }
