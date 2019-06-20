@@ -1,0 +1,8 @@
+{
+  "groupIds": [
+    523061899,
+    720332230,
+    852797927
+  ],
+  "dbConnectionString": "data source=localhost;initial catalog=CqInfo;user id=sa;pwd=public@123"
+}
