@@ -11,7 +11,7 @@ namespace Native.Csharp.Dao
     /// <summary>
     /// Dapper数据操作
     /// </summary>
-    public class DapWrapper : IDapWrapper
+    public class DapWrapperBk
     {
         /// <summary>
         /// 取数据，执行存储过程，带参数
@@ -21,7 +21,7 @@ namespace Native.Csharp.Dao
         /// <param name="proc"></param>
         /// <param name="procParams"></param>
         /// <returns></returns>
-        public List<T> InnerQueryProc<T>(String connString, String proc, DynamicParameters procParams)
+        public static List<T> InnerQueryProc<T>(String connString, String proc, DynamicParameters procParams)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -37,7 +37,7 @@ namespace Native.Csharp.Dao
         /// <param name="sql"></param>
         /// <param name="procParams"></param>
         /// <returns></returns>
-        public List<T> InnerQuerySql<T>(String connString, String sql, DynamicParameters procParams)
+        public static List<T> InnerQuerySql<T>(String connString, String sql, DynamicParameters procParams)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -52,7 +52,7 @@ namespace Native.Csharp.Dao
         /// <param name="sql"></param>
         /// <param name="procParams"></param>
         /// <returns></returns>
-        public List<T> InnerQuerySql<T>(String connString, String sql, object procParams)
+        public static List<T> InnerQuerySql<T>(String connString, String sql, object procParams)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -66,7 +66,7 @@ namespace Native.Csharp.Dao
         /// <param name="connString">链接字符串</param>
         /// <param name="proc"></param>
         /// <returns></returns>
-        public List<T> InnerQueryProc<T>(String connString, String proc)
+        public static List<T> InnerQueryProc<T>(String connString, String proc)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -80,7 +80,7 @@ namespace Native.Csharp.Dao
         /// <param name="connString">链接字符串</param>
         /// <param name="sql"></param>
         /// <returns></returns>
-        public List<T> InnerQuerySql<T>(String connString, String sql)
+        public static List<T> InnerQuerySql<T>(String connString, String sql)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -97,7 +97,7 @@ namespace Native.Csharp.Dao
         /// <param name="procParams">参数</param>
         /// <param name="readResult">对结果集的处理函数</param>
         /// <returns></returns>
-        public T InnerQueryMultipleProc<T>(String connString, String proc, DynamicParameters procParams, Func<SqlMapper.GridReader, T> readResult)
+        public static T InnerQueryMultipleProc<T>(String connString, String proc, DynamicParameters procParams, Func<SqlMapper.GridReader, T> readResult)
         {
             IDbConnection conn = null;
             SqlMapper.GridReader reader = null;
@@ -128,7 +128,7 @@ namespace Native.Csharp.Dao
         /// <param name="connString">链接字符串</param>
         /// <param name="proc">读取的存储过程</param>
         /// <returns></returns>
-        public T InnerQueryScalarProc<T>(String connString, String proc)
+        public static T InnerQueryScalarProc<T>(String connString, String proc)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -143,7 +143,7 @@ namespace Native.Csharp.Dao
         /// <param name="proc">读取的存储过程</param>
         /// <param name="procParams">参数</param>
         /// <returns></returns>
-        public T InnerQueryScalarProc<T>(String connString, String proc, DynamicParameters procParams)
+        public static T InnerQueryScalarProc<T>(String connString, String proc, DynamicParameters procParams)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -157,7 +157,7 @@ namespace Native.Csharp.Dao
         /// <param name="sql">读取的sql语句</param>
         /// <param name="procParams">参数</param>
         /// <returns></returns>
-        public T InnerQueryScalarSql<T>(String connString, String sql, DynamicParameters procParams)
+        public static T InnerQueryScalarSql<T>(String connString, String sql, DynamicParameters procParams)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -170,7 +170,7 @@ namespace Native.Csharp.Dao
         /// <param name="connString">链接字符串</param>
         /// <param name="proc">更新数据的存储过程</param>
         /// <returns>操作结果：1成功0失败</returns>
-        public Int32 InnerExecuteScalarProc(String connString, String proc)
+        public static Int32 InnerExecuteScalarProc(String connString, String proc)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -184,7 +184,7 @@ namespace Native.Csharp.Dao
         /// <param name="connString">链接字符串</param>
         /// <param name="proc"></param>
         /// <returns></returns>
-        public Int32 InnerExecuteProc(String connString, String proc)
+        public static Int32 InnerExecuteProc(String connString, String proc)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -199,7 +199,7 @@ namespace Native.Csharp.Dao
         /// <param name="sql">sql语句</param>
         /// <param name="sqlParams">参数</param>
         /// <returns></returns>
-        public Int32 InnerExecuteSql(String connString, String sql, DynamicParameters sqlParams)
+        public static Int32 InnerExecuteSql(String connString, String sql, DynamicParameters sqlParams)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -213,7 +213,7 @@ namespace Native.Csharp.Dao
         /// <param name="sql">sql语句</param>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Int32 InnerExecuteSql(String connString, String sql, object param)
+        public static Int32 InnerExecuteSql(String connString, String sql, object param)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -227,7 +227,7 @@ namespace Native.Csharp.Dao
         /// <param name="sql">sql语句</param>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<Int32> InnerExecuteSqlAsync(String connString, String sql, object param)
+        public static Task<Int32> InnerExecuteSqlAsync(String connString, String sql, object param)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -241,7 +241,7 @@ namespace Native.Csharp.Dao
         /// <param name="proc"></param>
         /// <param name="procParams">参数</param>
         /// <returns></returns>
-        public Int32 InnerExecuteProc(String connString, String proc, DynamicParameters procParams)
+        public static Int32 InnerExecuteProc(String connString, String proc, DynamicParameters procParams)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -254,7 +254,7 @@ namespace Native.Csharp.Dao
         /// <param name="connString">链接字符串</param>
         /// <param name="sql"></param>
         /// <returns></returns>
-        public Int32 InnerExecuteText(String connString, String sql)
+        public static Int32 InnerExecuteText(String connString, String sql)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -268,7 +268,7 @@ namespace Native.Csharp.Dao
         /// <param name="connString">链接字符串</param>
         /// <param name="proc"></param>
         /// <returns></returns>
-        public List<T> InnerQueryLongTimeProc<T>(String connString, String proc)
+        public static List<T> InnerQueryLongTimeProc<T>(String connString, String proc)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -286,7 +286,7 @@ namespace Native.Csharp.Dao
         /// <param name="proc"></param>
         /// <param name="procParams"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<T>> InnerQueryProcAsync<T>(String connString, String proc, DynamicParameters procParams)
+        public async static Task<IEnumerable<T>> InnerQueryProcAsync<T>(String connString, String proc, DynamicParameters procParams)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -302,7 +302,7 @@ namespace Native.Csharp.Dao
         /// <param name="sql"></param>
         /// <param name="procParams"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<T>> InnerQuerySqlAsync<T>(String connString, String sql, DynamicParameters procParams)
+        public async static Task<IEnumerable<T>> InnerQuerySqlAsync<T>(String connString, String sql, DynamicParameters procParams)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -316,7 +316,7 @@ namespace Native.Csharp.Dao
         /// <param name="connString">链接字符串</param>
         /// <param name="proc"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<T>> InnerQueryProcAsync<T>(String connString, String proc)
+        public async static Task<IEnumerable<T>> InnerQueryProcAsync<T>(String connString, String proc)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -330,7 +330,7 @@ namespace Native.Csharp.Dao
         /// <param name="connString">链接字符串</param>
         /// <param name="sql"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<T>> InnerQuerySqlAsync<T>(String connString, String sql)
+        public async static Task<IEnumerable<T>> InnerQuerySqlAsync<T>(String connString, String sql)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -347,7 +347,7 @@ namespace Native.Csharp.Dao
         /// <param name="procParams">参数</param>
         /// <param name="readResult">对结果集的处理函数</param>
         /// <returns></returns>
-        public async Task<T> InnerQueryMultipleProcAsync<T>(String connString, String proc, DynamicParameters procParams, Func<Task<SqlMapper.GridReader>, Task<T>> readResult)
+        public async static Task<T> InnerQueryMultipleProcAsync<T>(String connString, String proc, DynamicParameters procParams, Func<Task<SqlMapper.GridReader>, Task<T>> readResult)
         {
             IDbConnection conn = null;
             Task<SqlMapper.GridReader> reader = null;
@@ -378,7 +378,7 @@ namespace Native.Csharp.Dao
         /// <param name="connString">链接字符串</param>
         /// <param name="proc">读取的存储过程</param>
         /// <returns></returns>
-        public async Task<T> InnerQueryScalarProcAsync<T>(String connString, String proc)
+        public async static Task<T> InnerQueryScalarProcAsync<T>(String connString, String proc)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -393,7 +393,7 @@ namespace Native.Csharp.Dao
         /// <param name="proc">读取的存储过程</param>
         /// <param name="procParams">参数</param>
         /// <returns></returns>
-        public async Task<T> InnerQueryScalarProcAsync<T>(String connString, String proc, DynamicParameters procParams)
+        public async static Task<T> InnerQueryScalarProcAsync<T>(String connString, String proc, DynamicParameters procParams)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -407,7 +407,7 @@ namespace Native.Csharp.Dao
         /// <param name="sql">读取的sql语句</param>
         /// <param name="procParams">参数</param>
         /// <returns></returns>
-        public async Task<T> InnerQueryScalarSqlAsync<T>(String connString, String sql, DynamicParameters procParams)
+        public async static Task<T> InnerQueryScalarSqlAsync<T>(String connString, String sql, DynamicParameters procParams)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -420,7 +420,7 @@ namespace Native.Csharp.Dao
         /// <param name="connString">链接字符串</param>
         /// <param name="proc">更新数据的存储过程</param>
         /// <returns>操作结果：1成功0失败</returns>
-        public async Task<Int32> InnerExecuteScalarProcAsync(String connString, String proc)
+        public async static Task<Int32> InnerExecuteScalarProcAsync(String connString, String proc)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -434,7 +434,7 @@ namespace Native.Csharp.Dao
         /// <param name="connString">链接字符串</param>
         /// <param name="proc"></param>
         /// <returns></returns>
-        public async Task<Int32> InnerExecuteProcAsync(String connString, String proc)
+        public async static Task<Int32> InnerExecuteProcAsync(String connString, String proc)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -449,7 +449,7 @@ namespace Native.Csharp.Dao
         /// <param name="sql">sql语句</param>
         /// <param name="sqlParams">参数</param>
         /// <returns></returns>
-        public async Task<Int32> InnerExecuteSqlAsync(String connString, String sql, DynamicParameters sqlParams)
+        public async static Task<Int32> InnerExecuteSqlAsync(String connString, String sql, DynamicParameters sqlParams)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -465,7 +465,7 @@ namespace Native.Csharp.Dao
         /// <param name="proc"></param>
         /// <param name="procParams">参数</param>
         /// <returns></returns>
-        public async Task<Int32> InnerExecuteProcAsync(String connString, String proc, DynamicParameters procParams)
+        public async static Task<Int32> InnerExecuteProcAsync(String connString, String proc, DynamicParameters procParams)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -478,7 +478,7 @@ namespace Native.Csharp.Dao
         /// <param name="connString">链接字符串</param>
         /// <param name="sql"></param>
         /// <returns></returns>
-        public async Task<Int32> InnerExecuteTextAsync(String connString, String sql)
+        public async static Task<Int32> InnerExecuteTextAsync(String connString, String sql)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {
@@ -492,7 +492,7 @@ namespace Native.Csharp.Dao
         /// <param name="connString">链接字符串</param>
         /// <param name="proc"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<T>> InnerQueryLongTimeProcAsync<T>(String connString, String proc)
+        public async static Task<IEnumerable<T>> InnerQueryLongTimeProcAsync<T>(String connString, String proc)
         {
             using (IDbConnection conn = new SqlConnection(connString))
             {

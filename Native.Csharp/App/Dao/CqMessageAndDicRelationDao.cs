@@ -12,10 +12,12 @@ namespace Native.Csharp.App.Dao
     public class CqMessageAndDicRelationDao : ICqMessageAndDicRelationDao
     {
         private IConfig _config;
+        private IDapWrapper _dapWrapper;
 
-        public CqMessageAndDicRelationDao(IConfig config)
+        public CqMessageAndDicRelationDao(IConfig config, IDapWrapper dapWrapper)
         {
             _config = config;
+            _dapWrapper = dapWrapper;
         }
 
         public bool Add(CqMessageAndDicRelation cqMessageAndImageRelation)
@@ -32,7 +34,7 @@ VALUES
 @CqMsgDicId,
 GETDATE()
 )";
-            return DapWrapper.InnerExecuteSql(_config.Get().dbConnectionString, sql, cqMessageAndImageRelation)>0;
+            return _dapWrapper.InnerExecuteSql(_config.Get().dbConnectionString, sql, cqMessageAndImageRelation)>0;
         }
     }
 }

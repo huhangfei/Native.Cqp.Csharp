@@ -118,11 +118,14 @@
     </Compile>
     <Compile Include="App\Dao\CqMsgDicDao.cs" />
     <Compile Include="App\Dao\CqMessageAndDicRelationDao.cs" />
+    <Compile Include="App\Dao\DapWrapper_Sqlite.cs" />
+    <Compile Include="App\Dao\DapWrapperBk.cs" />
     <Compile Include="App\Dao\DapWrapper.cs" />
     <Compile Include="App\Dao\CqGroupMessageDao.cs" />
     <Compile Include="App\Dao\ICqMsgDicDao.cs" />
     <Compile Include="App\Dao\ICqGroupMessageDao.cs" />
     <Compile Include="App\Dao\ICqMessageAndDicRelationDao.cs" />
+    <Compile Include="App\Dao\IDapWrapper.cs" />
     <Compile Include="App\Enum\FileStorageType.cs" />
     <Compile Include="App\EventArgs\CqAddFriendRequestEventArgs.cs" />
     <Compile Include="App\EventArgs\CqAddGroupRequestEventArgs.cs" />
@@ -192,6 +195,10 @@
     <ProjectReference Include="..\Native.Csharp.Sdk\Native.Csharp.Sdk.csproj">
       <Project>{797eaebc-4d5b-4eef-87f4-a508fda2cb6a}</Project>
       <Name>Native.Csharp.Sdk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Native.Csharp.Tool\Native.Csharp.Tool.csproj">
+      <Project>{9db94cbf-6843-4ea3-9241-769124416fe9}</Project>
+      <Name>Native.Csharp.Tool</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

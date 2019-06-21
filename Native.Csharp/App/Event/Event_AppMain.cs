@@ -10,6 +10,7 @@ using Native.Csharp.Sdk.Cqp;
 using Native.Csharp.App.Business;
 using Native.Csharp.App.Dao;
 using Native.Csharp.App.Enum;
+using Native.Csharp.Dao;
 
 namespace Native.Csharp.App.Event
 {
@@ -44,6 +45,8 @@ namespace Native.Csharp.App.Event
 
             container.RegisterType<IGroupMessageLoger, GroupMessageLogerImpl>();
             container.RegisterType<IConfig, ConfigImpl>();
+
+            container.RegisterType<IDapWrapper, DapWrapper>();
 
             container.RegisterType<ICqGroupMessageDao, CqGroupMessageDao>();
             container.RegisterType<ICqMsgDicDao, CqMsgDicDao>();

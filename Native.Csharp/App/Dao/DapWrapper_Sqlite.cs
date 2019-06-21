@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using System.Data.SQLite;
 
 namespace Native.Csharp.Dao
 {
     /// <summary>
     /// Dapper数据操作
     /// </summary>
-    public class DapWrapper : IDapWrapper
+    public class DapWrapper_Sqllite : IDapWrapper
     {
         /// <summary>
         /// 取数据，执行存储过程，带参数
@@ -23,7 +23,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public List<T> InnerQueryProc<T>(String connString, String proc, DynamicParameters procParams)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return conn.Query<T>(proc, procParams, commandType: CommandType.StoredProcedure).ToList();
             }
@@ -39,7 +39,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public List<T> InnerQuerySql<T>(String connString, String sql, DynamicParameters procParams)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return conn.Query<T>(sql, procParams, commandType: CommandType.Text).ToList();
             }
@@ -54,7 +54,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public List<T> InnerQuerySql<T>(String connString, String sql, object procParams)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return conn.Query<T>(sql, procParams, commandType: CommandType.Text).ToList();
             }
@@ -68,7 +68,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public List<T> InnerQueryProc<T>(String connString, String proc)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return conn.Query<T>(proc, commandType: CommandType.StoredProcedure).ToList();
             }
@@ -82,7 +82,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public List<T> InnerQuerySql<T>(String connString, String sql)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return conn.Query<T>(sql, commandType: CommandType.Text).ToList();
             }
@@ -104,7 +104,7 @@ namespace Native.Csharp.Dao
 
             try
             {
-                conn = new SqlConnection(connString);
+                conn = new SQLiteConnection(connString);
 
                 reader = conn.QueryMultiple(proc, procParams, commandType: CommandType.StoredProcedure);
 
@@ -130,7 +130,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public T InnerQueryScalarProc<T>(String connString, String proc)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return conn.ExecuteScalar<T>(proc, commandType: CommandType.StoredProcedure);
             }
@@ -145,7 +145,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public T InnerQueryScalarProc<T>(String connString, String proc, DynamicParameters procParams)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return conn.ExecuteScalar<T>(proc, procParams, commandType: CommandType.StoredProcedure);
             }
@@ -159,7 +159,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public T InnerQueryScalarSql<T>(String connString, String sql, DynamicParameters procParams)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return conn.ExecuteScalar<T>(sql, procParams, commandType: CommandType.Text);
             }
@@ -172,7 +172,7 @@ namespace Native.Csharp.Dao
         /// <returns>操作结果：1成功0失败</returns>
         public Int32 InnerExecuteScalarProc(String connString, String proc)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return conn.ExecuteScalar<Int32>(proc, commandType: CommandType.StoredProcedure);
             }
@@ -186,7 +186,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public Int32 InnerExecuteProc(String connString, String proc)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return conn.Execute(proc, commandType: CommandType.StoredProcedure);
             }
@@ -201,7 +201,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public Int32 InnerExecuteSql(String connString, String sql, DynamicParameters sqlParams)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return conn.Execute(sql, sqlParams, commandType: CommandType.Text);
             }
@@ -215,7 +215,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public Int32 InnerExecuteSql(String connString, String sql, object param)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return conn.Execute(sql, param, commandType: CommandType.Text);
             }
@@ -229,7 +229,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public Task<Int32> InnerExecuteSqlAsync(String connString, String sql, object param)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return conn.ExecuteAsync(sql, param, commandType: CommandType.Text);
             }
@@ -243,7 +243,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public Int32 InnerExecuteProc(String connString, String proc, DynamicParameters procParams)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return conn.Execute(proc, procParams, commandType: CommandType.StoredProcedure);
             }
@@ -256,7 +256,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public Int32 InnerExecuteText(String connString, String sql)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return conn.Execute(sql, commandType: CommandType.Text);
             }
@@ -270,7 +270,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public List<T> InnerQueryLongTimeProc<T>(String connString, String proc)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return conn.Query<T>(proc, commandType: CommandType.StoredProcedure, commandTimeout: 600).ToList();
             }
@@ -288,7 +288,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public async Task<IEnumerable<T>> InnerQueryProcAsync<T>(String connString, String proc, DynamicParameters procParams)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return await conn.QueryAsync<T>(proc, procParams, commandType: CommandType.StoredProcedure);
             }
@@ -304,7 +304,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public async Task<IEnumerable<T>> InnerQuerySqlAsync<T>(String connString, String sql, DynamicParameters procParams)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return await conn.QueryAsync<T>(sql, procParams, commandType: CommandType.Text);
             }
@@ -318,7 +318,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public async Task<IEnumerable<T>> InnerQueryProcAsync<T>(String connString, String proc)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return await conn.QueryAsync<T>(proc, commandType: CommandType.StoredProcedure);
             }
@@ -332,7 +332,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public async Task<IEnumerable<T>> InnerQuerySqlAsync<T>(String connString, String sql)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return await conn.QueryAsync<T>(sql, commandType: CommandType.Text);
             }
@@ -354,7 +354,7 @@ namespace Native.Csharp.Dao
 
             try
             {
-                conn = new SqlConnection(connString);
+                conn = new SQLiteConnection(connString);
 
                 reader = conn.QueryMultipleAsync(proc, procParams, commandType: CommandType.StoredProcedure);
 
@@ -380,7 +380,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public async Task<T> InnerQueryScalarProcAsync<T>(String connString, String proc)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return await conn.ExecuteScalarAsync<T>(proc, commandType: CommandType.StoredProcedure);
             }
@@ -395,7 +395,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public async Task<T> InnerQueryScalarProcAsync<T>(String connString, String proc, DynamicParameters procParams)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return await conn.ExecuteScalarAsync<T>(proc, procParams, commandType: CommandType.StoredProcedure);
             }
@@ -409,7 +409,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public async Task<T> InnerQueryScalarSqlAsync<T>(String connString, String sql, DynamicParameters procParams)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return await conn.ExecuteScalarAsync<T>(sql, procParams, commandType: CommandType.Text);
             }
@@ -422,7 +422,7 @@ namespace Native.Csharp.Dao
         /// <returns>操作结果：1成功0失败</returns>
         public async Task<Int32> InnerExecuteScalarProcAsync(String connString, String proc)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return await conn.ExecuteScalarAsync<Int32>(proc, commandType: CommandType.StoredProcedure);
             }
@@ -436,7 +436,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public async Task<Int32> InnerExecuteProcAsync(String connString, String proc)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return await conn.ExecuteAsync(proc, commandType: CommandType.StoredProcedure);
             }
@@ -451,7 +451,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public async Task<Int32> InnerExecuteSqlAsync(String connString, String sql, DynamicParameters sqlParams)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return await conn.ExecuteAsync(sql, sqlParams, commandType: CommandType.Text);
             }
@@ -467,7 +467,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public async Task<Int32> InnerExecuteProcAsync(String connString, String proc, DynamicParameters procParams)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return await conn.ExecuteAsync(proc, procParams, commandType: CommandType.StoredProcedure);
             }
@@ -480,7 +480,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public async Task<Int32> InnerExecuteTextAsync(String connString, String sql)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return await conn.ExecuteAsync(sql, commandType: CommandType.Text);
             }
@@ -494,7 +494,7 @@ namespace Native.Csharp.Dao
         /// <returns></returns>
         public async Task<IEnumerable<T>> InnerQueryLongTimeProcAsync<T>(String connString, String proc)
         {
-            using (IDbConnection conn = new SqlConnection(connString))
+            using (IDbConnection conn = new SQLiteConnection(connString))
             {
                 return await conn.QueryAsync<T>(proc, commandType: CommandType.StoredProcedure, commandTimeout: 600);
             }

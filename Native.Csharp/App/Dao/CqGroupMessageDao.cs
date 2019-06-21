@@ -7,10 +7,12 @@ namespace Native.Csharp.App.Dao
     public class CqGroupMessageDao : ICqGroupMessageDao
     {
         private IConfig _config;
+        private IDapWrapper _dapWrapper;
 
-        public CqGroupMessageDao(IConfig config)
+        public CqGroupMessageDao(IConfig config, IDapWrapper dapWrapper)
         {
             _config = config;
+            _dapWrapper = dapWrapper;
         }
 
         public bool Add(CqGroupMessage groupMessageInfo)
@@ -31,7 +33,7 @@ VALUES
 @Message,
 GETDATE()
 )";
-           return DapWrapper.InnerExecuteSql(_config.Get().dbConnectionString, sql, groupMessageInfo)>0;
+           return _dapWrapper.InnerExecuteSql(_config.Get().dbConnectionString, sql, groupMessageInfo)>0;
         }
     }
 }

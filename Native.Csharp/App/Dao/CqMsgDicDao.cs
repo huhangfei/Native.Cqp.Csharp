@@ -8,12 +8,13 @@ namespace Native.Csharp.App.Dao
     public class CqMsgDicDao : ICqMsgDicDao
     {
         private IConfig _config;
+        private IDapWrapper _dapWrapper;
 
-        public CqMsgDicDao(IConfig config)
+        public CqMsgDicDao(IConfig config, IDapWrapper dapWrapper)
         {
             _config = config;
+            _dapWrapper = dapWrapper;
         }
-
 
         public CqMsgDic AddOrUpdateByCqCode(CqMsgDic cqImageInfo)
         {
@@ -44,7 +45,7 @@ namespace Native.Csharp.App.Dao
             END
             SELECT TOP 1 * FROM CqMsgDic WHERE CqCode=@CqCode ORDER BY UpdateTime DESC;
             ";
-            return DapWrapper.InnerQuerySql<CqMsgDic>(_config.Get().dbConnectionString, sql, cqImageInfo).FirstOrDefault();
+            return _dapWrapper.InnerQuerySql<CqMsgDic>(_config.Get().dbConnectionString, sql, cqImageInfo).FirstOrDefault();
         }
        
     }
